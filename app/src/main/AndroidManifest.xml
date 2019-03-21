@@ -10,11 +10,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DashboardActivity">
+        <activity android:name=".ui.DashboardActivity">
         </activity>
         <activity android:name=".BaseActivity">
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
         </activity>
     </application>
 
