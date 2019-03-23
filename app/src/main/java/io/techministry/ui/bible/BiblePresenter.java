@@ -9,14 +9,12 @@ import io.techministry.network.BibleApi;
 
 public class BiblePresenter {
 
-    private BibleRepo bibleRepo;
     private BibleApi bibleApi;
     private BibleScreen bibleScreen;
     private CompositeDisposable compositeDisposable;
 
     public BiblePresenter(BibleApi bibleApi) {
         this.bibleApi = bibleApi;
-        this.bibleRepo = new BibleRepo(bibleApi);
         this.compositeDisposable = new CompositeDisposable();
     }
 
@@ -25,9 +23,9 @@ public class BiblePresenter {
     }
 
     public void fetchBibleBooks(String bibleId) {
-        compositeDisposable.add(bibleRepo.fetchBooks(bibleId)
+        compositeDisposable.add(bibleApi.getBibleBooks(bibleId)
                 .subscribeOn(Schedulers.io())
-                //.observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(booksResponse -> bibleScreen.onNewBibleBooks(booksResponse.data),
                         throwable -> Log.e("TEST", "Error in fetch Bible books", throwable)));
 //        compositeDisposable.add(bibleApi.getBibleBooks(bibleId).subscribeOn(Scheduler.))
