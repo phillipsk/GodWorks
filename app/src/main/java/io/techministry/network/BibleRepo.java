@@ -1,4 +1,4 @@
-package io.techministry.ui.bible;
+package io.techministry.network;
 
 import com.google.gson.Gson;
 import com.nytimes.android.external.fs3.FileSystemPersister;
@@ -14,8 +14,6 @@ import java.io.IOException;
 import javax.annotation.Nonnull;
 
 import io.reactivex.Single;
-import io.techministry.network.BibleApi;
-import io.techministry.network.BooksResponse;
 import okhttp3.ResponseBody;
 import okio.BufferedSource;
 
