@@ -29,9 +29,10 @@ public class DashboardActivity extends BaseActivity {
 
         fragmentManager = getSupportFragmentManager();
 
-        setupBaseActionbar(toolbar, getString(R.string.app_name),false);
+        setupBaseActionbar(toolbar, getString(R.string.app_name), false);
 
-//        setBottomNavigation();
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        setBottomNavigation();
 
     }
 
@@ -48,7 +49,7 @@ public class DashboardActivity extends BaseActivity {
 //        bottomNavigationView.setSelectedItemId(R.id.bottom_nav_bible);
     }
 
-    private void setBottomNavigation(){
+    private void setBottomNavigation() {
         switchFragments(R.id.bottom_nav_bible);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -57,19 +58,19 @@ public class DashboardActivity extends BaseActivity {
         });
     }
 
-    private void switchFragments(int position){
+    private void switchFragments(int position) {
         Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(position));
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        for(Fragment eachFragment: fragmentManager.getFragments()){
+        for (Fragment eachFragment : fragmentManager.getFragments()) {
             fragmentTransaction.hide(eachFragment);
         }
 
-        if(fragment == null){
+        if (fragment == null) {
             Fragment newFrag = getItem(position);
-            fragmentTransaction.add(R.id.container, newFrag,String.valueOf(position));
+            fragmentTransaction.add(R.id.container, newFrag, String.valueOf(position));
             fragmentTransaction.commit();
-        }else{
+        } else {
             fragmentTransaction.show(fragment);
             fragmentTransaction.commit();
         }
