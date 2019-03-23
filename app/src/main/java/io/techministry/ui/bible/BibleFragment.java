@@ -12,25 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.stetho.okhttp3.StethoInterceptor;
-
 import java.util.List;
 
+import io.techministry.GodWorksApplication;
 import io.techministry.R;
-import io.techministry.network.BibleApi;
-import io.techministry.network.BibleApiInterceptor;
+import io.techministry.network.BibleApiManager;
 import io.techministry.network.BibleBook;
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.moshi.MoshiConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BibleFragment extends Fragment implements BibleScreen {
 
-    private static String URL_RUTH = "https://api.scripture.api.bible";
     private BiblePresenter biblePresenter;
     private BooksAdapter booksAdapter;
     private String bibleId = "de4e12af7f28f599-01";
@@ -52,20 +45,8 @@ public class BibleFragment extends Fragment implements BibleScreen {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        OkHttpClient apiClient = new OkHttpClient.Builder()
-                .addNetworkInterceptor(new StethoInterceptor())
-                .addNetworkInterceptor(new BibleApiInterceptor())
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(apiClient)
-                .baseUrl(URL_RUTH)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-
-        BibleApi bibleApi = retrofit.create(BibleApi.class);
-        biblePresenter = new BiblePresenter(bibleApi);
+        BibleApiManager bibleApiManager = ((GodWorksApplication) context.getApplicationContext()).getBibleApiManager();
+        biblePresenter = new BiblePresenter(bibleApiManager.getGson(), bibleApiManager.getBibleApi(), context.getCacheDir());
 
         biblePresenter.bind(this);
         biblePresenter.fetchBibleBooks(bibleId);

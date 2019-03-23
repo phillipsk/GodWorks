@@ -2,6 +2,10 @@ package io.techministry.ui.bible;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import java.io.File;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -9,12 +13,12 @@ import io.techministry.network.BibleApi;
 
 public class BiblePresenter {
 
-    private BibleApi bibleApi;
+    private final BibleRepo bibleRepo;
     private BibleScreen bibleScreen;
     private CompositeDisposable compositeDisposable;
 
-    public BiblePresenter(BibleApi bibleApi) {
-        this.bibleApi = bibleApi;
+    public BiblePresenter(Gson gson, BibleApi bibleApi, File cacheDir) {
+        this.bibleRepo = new BibleRepo(gson, bibleApi, cacheDir);
         this.compositeDisposable = new CompositeDisposable();
     }
 
@@ -23,12 +27,11 @@ public class BiblePresenter {
     }
 
     public void fetchBibleBooks(String bibleId) {
-        compositeDisposable.add(bibleApi.getBibleBooks(bibleId)
+        compositeDisposable.add(bibleRepo.getBibleBook(bibleId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(booksResponse -> bibleScreen.onNewBibleBooks(booksResponse.data),
                         throwable -> Log.e("TEST", "Error in fetch Bible books", throwable)));
-//        compositeDisposable.add(bibleApi.getBibleBooks(bibleId).subscribeOn(Scheduler.))
     }
 
     public void unbind() {
