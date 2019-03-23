@@ -1,6 +1,8 @@
 package io.techministry.network;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -10,7 +12,10 @@ public interface BibleApi {
 //    @GET("/v1/bibles/{bible_id}/books/RUT/chapters")
 //    Observable<BooksResponse> getBibleBooks(@Path("bible_id") String bibleId);
 
+    // @GET("/v1/bibles/{bible_id}/books")
+    // Observable<BooksResponse> getBibleBooks(@Path("bible_id") String bibleId);
+
     @GET("/v1/bibles/{bible_id}/books")
-    Observable<BooksResponse> getBibleBooks(@Path("bible_id") String bibleId);
+    Single<ResponseBody> getBibleBooksForPersister(@Path("bible_id") String bibleId);
 
 }
