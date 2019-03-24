@@ -31,9 +31,11 @@ public class BibleRepo {
 
     public Single<BooksResponse> getBibleBook(String bibleId) {
         try {
-            Store<BooksResponse, String> bibleStore = StoreBuilder.<String, BufferedSource, BooksResponse>parsedWithKey()
+            Store<BooksResponse, String> bibleStore = StoreBuilder.<String, BufferedSource,
+                    BooksResponse>parsedWithKey()
                     .fetcher(bId -> bibleApi.getBibleBooksForPersister(bId).map(ResponseBody::source))
-                    .persister(FileSystemPersister.create(FileSystemFactory.create(cacheDir), new PathResolver<String>() {
+                    .persister(FileSystemPersister.create(FileSystemFactory.create(cacheDir),
+                            new PathResolver<String>() {
                         @Nonnull
                         @Override
                         public String resolve(@Nonnull String key) {
@@ -48,4 +50,28 @@ public class BibleRepo {
             return Single.error(e);
         }
     }
+
+    public Single<ChapterResponse> getBibleChapter(String bibleId, String bookId){
+        try {
+//            TODO: Jump to 'Store' source library. What are <T,V> types? Is there method overloading?
+//            TODO: Looks like the V within <T,V> is the key written to the cache file.
+            Store<ChapterResponse, String> chapterResponseStringStore = StoreBuilder.<String,
+                    BufferedSource, ChapterResponse>parsedWithKey()
+                    .fetcher(bId -> bibleApi.getBibleChaptersForPersister(bId,bookId)
+                            .map(ResponseBody::source))
+                    .persister(FileSystemPersister.create(FileSystemFactory.create(cacheDir),
+                            new PathResolver<String>() {
+                        public String resolve(String key){
+                            return "chapter-"+ key;
+                        }
+                    }))
+                    .parser(GsonParserFactory.createSourceParser(gson,ChapterResponse.class))
+                    .open();
+            return chapterResponseStringStore.fetch(bibleId, bookId);
+        }catch (IOException e){
+            return Single.error(e);
+        }
+    }
+//    TODO: How may I evaluate 'bId' i.e. ?typename(bId)
+
 }

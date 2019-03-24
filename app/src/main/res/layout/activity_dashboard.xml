@@ -16,7 +16,6 @@
         android:background="@color/white"
         android:elevation="3dp"
         app:popupTheme="@style/Base.AlertDialog.AppCompat.Light"/>
-    <!--TODO: Min API on android:elevation resource attribute-->
 
 
     <FrameLayout

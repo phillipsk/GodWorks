@@ -6,9 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--TODO: Had to add these two lines
-        https://stackoverflow.com/questions/26515058/this-activity-already-has-an-action-bar-supplied-by-the-window-decor
-        -->
+        <!--Two lines below enable BottomNavigationView -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
