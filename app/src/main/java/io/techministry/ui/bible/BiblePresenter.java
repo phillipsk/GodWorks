@@ -38,4 +38,5 @@ public class BiblePresenter {
     public void unbind() {
         compositeDisposable.clear();
     }
+
 }

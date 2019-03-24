@@ -23,8 +23,7 @@ public class DashboardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-//        TODO: What's the difference? Casting (Toolbar) Requires min SDK version?
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  // Deprecated
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         fragmentManager = getSupportFragmentManager();

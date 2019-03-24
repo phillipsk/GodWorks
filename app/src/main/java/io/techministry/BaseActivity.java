@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 public class BaseActivity extends AppCompatActivity {
 
-//    TODO: Should this class be added to the Manifest or Not?
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
