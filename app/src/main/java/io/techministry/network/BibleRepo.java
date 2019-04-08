@@ -61,13 +61,15 @@ public class BibleRepo {
                             .map(ResponseBody::source))
                     .persister(FileSystemPersister.create(FileSystemFactory.create(cacheDir),
                             new PathResolver<String>() {
-                        public String resolve(String key){
-                            return "chapter-"+ key;
+                            @Nonnull
+                            @Override
+                        public String resolve(@Nonnull String key){
+                            return "chapter-"+ bookId;
                         }
                     }))
                     .parser(GsonParserFactory.createSourceParser(gson,ChapterResponse.class))
                     .open();
-            return chapterResponseStringStore.fetch(bibleId, bookId);
+            return chapterResponseStringStore.fetch(bibleId); // bookid
         }catch (IOException e){
             return Single.error(e);
         }

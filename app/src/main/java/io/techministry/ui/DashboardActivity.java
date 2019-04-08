@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import io.techministry.BaseActivity;
 import io.techministry.R;
 import io.techministry.ui.bible.BibleFragment;
+import io.techministry.ui.bible.chapter.ChapterFragment;
 
 public class DashboardActivity extends BaseActivity {
 
@@ -78,20 +79,16 @@ public class DashboardActivity extends BaseActivity {
     public Fragment getItem(int menu_id) {
         Fragment fragment = null;
 
-        fragment = new BibleFragment();
+//        fragment = new BibleFragment();
 
 
-/*        if (menu_id == R.id.bottom_nav_home) {
-            fragment = new AboutUsFragment();
-        }else if(menu_id == R.id.bottom_nav_the_word) {
-            fragment = new PostsFragment();
-        }else if(menu_id == R.id.bottom_nav_listen) {
-            fragment = new AudiosFragment();
-        }else if (menu_id == R.id.bottom_nav_bible){
-//            fragment = new BibleFragment();
-        }else if(menu_id == R.id.bottom_nav_location){
-            fragment = new LocationFragment();
-        }*/
+        if (menu_id == R.id.bottom_nav_listen) {
+            fragment = new ChapterFragment();
+        }else if(menu_id == R.id.bottom_nav_bible) {
+            fragment = new BibleFragment();
+        }else if (menu_id == R.id.bottom_nav_the_word){
+            fragment = new BibleFragment();
+        }
         return fragment;
     }
 
