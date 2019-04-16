@@ -31,8 +31,8 @@ public class ChapterFragment extends Fragment implements ChapterScreen {
     private ChapterAdapter chapterAdapter;
     private String bibleId = "de4e12af7f28f599-02";
     private RecyclerView recyclerView;
-//    private String bookId = "RUT";
-    private String bookId = "HAB";
+    private String bookId = "RUT";
+//    private String bookId = "HAB";
 
     public ChapterFragment() {
         // Required empty public constructor

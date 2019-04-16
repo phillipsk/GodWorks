@@ -64,7 +64,7 @@ public class BibleRepo {
                             @Nonnull
                             @Override
                         public String resolve(@Nonnull String key){
-                            return "chapter-"+ bookId;
+                            return bibleId + "chapter-"+ bookId;
                         }
                     }))
                     .parser(GsonParserFactory.createSourceParser(gson,ChapterResponse.class))
