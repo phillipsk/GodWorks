@@ -1,11 +1,13 @@
 package io.techministry.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import io.techministry.BaseActivity;
 import io.techministry.R;
@@ -25,14 +27,17 @@ public class DashboardActivity extends BaseActivity {
         setContentView(R.layout.activity_dashboard);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  // Deprecated
+//        GodWorks heading title
         Toolbar toolbar = findViewById(R.id.toolbar);
+        setupBaseActionbar(toolbar, getString(R.string.app_name), false);
 
         fragmentManager = getSupportFragmentManager();
 
-        setupBaseActionbar(toolbar, getString(R.string.app_name), false);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         setBottomNavigation();
+        bottomNavigationView.setSelectedItemId(R.id.bottom_nav_bible);
+
 
     }
 
@@ -50,11 +55,15 @@ public class DashboardActivity extends BaseActivity {
     }
 
     private void setBottomNavigation() {
-        switchFragments(R.id.bottom_nav_bible);
+//        This is where the initial fragment is called/created; parameterized with int position
+//        switchFragments(R.id.bottom_nav_bible);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switchFragments(item.getItemId());
-            return true;
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                DashboardActivity.this.switchFragments(item.getItemId());
+                return true;
+            }
         });
     }
 

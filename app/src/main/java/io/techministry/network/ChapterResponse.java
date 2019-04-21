@@ -5,8 +5,8 @@ import java.util.List;
 public class ChapterResponse {
     public List<BibleChapter> chapterList;
 
-    public ChapterResponse(List<BibleChapter> chapterList) {
-        this.chapterList = chapterList;
+    public ChapterResponse(List<BibleChapter> chList) {
+        this.chapterList = chList;
     }
 
     @Override

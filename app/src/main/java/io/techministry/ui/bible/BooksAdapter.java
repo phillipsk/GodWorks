@@ -54,6 +54,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 //            itemView.findViewById(R.id.start);
 
             itemView.setOnClickListener(view -> Toast.makeText(view.getContext(), "Clicked on " + book.getName(), Toast.LENGTH_LONG).show());
+/*            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });*/
 //            itemView.setOnClickListener(View -> Toast.makeText(View.getContext(), "Clicked on " + book.getNameLong(), Toast.LENGTH_LONG).show());
         }
     }

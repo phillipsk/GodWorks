@@ -8,10 +8,10 @@ public class BibleChapter {
       "reference": "Ruth 1"
       */
 
-    private String id;
-    private String bookId;
-    private int number;
-    private String reference;
+    String id;
+    String bookId;
+    int number;
+    String reference;
 
     public BibleChapter(String id, String bookId, int number, String reference) {
         this.id = id;
