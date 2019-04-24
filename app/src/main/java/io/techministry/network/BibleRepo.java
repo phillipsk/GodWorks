@@ -1,5 +1,7 @@
 package io.techministry.network;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.nytimes.android.external.fs3.FileSystemPersister;
 import com.nytimes.android.external.fs3.PathResolver;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import javax.annotation.Nonnull;
 
 import io.reactivex.Single;
+import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
 import okio.BufferedSource;
 
@@ -69,7 +72,9 @@ public class BibleRepo {
                     }))
                     .parser(GsonParserFactory.createSourceParser(gson,ChapterResponse.class))
                     .open();
-            return chapterResponseStringStore.fetch(bibleId); // bookid
+            Single<ChapterResponse> single = chapterResponseStringStore.fetch(bibleId);
+
+            return single.doOnSuccess(chapterResponse -> Log.i("TEST", "Single emitting " + chapterResponse));  // bookid
         }catch (IOException e){
             return Single.error(e);
         }

@@ -17,6 +17,7 @@ import io.techministry.network.BibleBook;
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
 
     private List<BibleBook> items;
+    private BooksListener mBooksListener;
 
     public BooksAdapter() {
         this.items = new ArrayList<>();
@@ -53,7 +54,10 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             ((TextView) itemView.findViewById(R.id.info_text)).setText(book.getName());
 //            itemView.findViewById(R.id.start);
 
-            itemView.setOnClickListener(view -> Toast.makeText(view.getContext(), "Clicked on " + book.getName(), Toast.LENGTH_LONG).show());
+            itemView.setOnClickListener(view -> {
+                if (mBooksListener != null)
+                    mBooksListener.onBookSelected(book);
+            });
 /*            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -62,5 +66,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             });*/
 //            itemView.setOnClickListener(View -> Toast.makeText(View.getContext(), "Clicked on " + book.getNameLong(), Toast.LENGTH_LONG).show());
         }
+    }
+
+    public void setBooksListener(BooksListener booksListener) {
+        mBooksListener = booksListener;
+    }
+
+    public interface BooksListener {
+        void onBookSelected(BibleBook book);
     }
 }

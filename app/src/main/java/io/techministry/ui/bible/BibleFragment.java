@@ -8,9 +8,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class BibleFragment extends Fragment implements BibleScreen {
     private BooksAdapter booksAdapter;
     private String bibleId = "de4e12af7f28f599-02";
     private RecyclerView recyclerView;
+    private BibleFragmentDelegate mBibleFragmentDelegate;
 
     public BibleFragment() {
         // Required empty public constructor
@@ -36,6 +39,7 @@ public class BibleFragment extends Fragment implements BibleScreen {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i("TEST", "BibleFragment created.");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_bible, container, false);
 //        return inflater.inflate(R.layout.activity_dashboard, container, false);
@@ -45,11 +49,16 @@ public class BibleFragment extends Fragment implements BibleScreen {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        BibleApiManager bibleApiManager = ((GodWorksApplication) context.getApplicationContext()).getBibleApiManager();
-        biblePresenter = new BiblePresenter(bibleApiManager.getGson(), bibleApiManager.getBibleApi(), context.getCacheDir());
+        if (context instanceof BibleFragmentDelegate) {
+            mBibleFragmentDelegate = (BibleFragmentDelegate) context;
+        } else
+            throw new IllegalStateException("The activity " + context + " does not implement the BibleFragmentDelegate interface.");
+    }
 
-        biblePresenter.bind(this);
-        biblePresenter.fetchBibleBooks(bibleId);
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mBibleFragmentDelegate = null;
     }
 
     @Override
@@ -59,7 +68,16 @@ public class BibleFragment extends Fragment implements BibleScreen {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(layoutManager);
         booksAdapter = new BooksAdapter();
+        booksAdapter.setBooksListener(book -> mBibleFragmentDelegate.onBookSelected(book));
         recyclerView.setAdapter(booksAdapter);
+
+        BibleApiManager bibleApiManager = ((GodWorksApplication) getActivity().getApplicationContext()).getBibleApiManager();
+        biblePresenter = new BiblePresenter(bibleApiManager.getGson(), bibleApiManager.getBibleApi(), getActivity().getCacheDir());
+
+        biblePresenter.bind(this);
+        // TODO: get the data from the cache if available instead of making a new HTTP request everytime
+        biblePresenter.fetchBibleBooks(bibleId);
+        Toast.makeText(getActivity(), "ON VIEW CREATED", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -73,4 +91,7 @@ public class BibleFragment extends Fragment implements BibleScreen {
         super.onDestroy();
     }
 
+    public interface BibleFragmentDelegate {
+        void onBookSelected(BibleBook book);
+    }
 }

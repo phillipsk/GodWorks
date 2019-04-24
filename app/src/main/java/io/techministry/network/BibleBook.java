@@ -1,6 +1,8 @@
 package io.techministry.network;
 
-public class BibleBook {
+import java.io.Serializable;
+
+public class BibleBook implements Serializable {
 
     /*      "id": "EXO",
       "bibleId": "de4e12af7f28f599-01",
