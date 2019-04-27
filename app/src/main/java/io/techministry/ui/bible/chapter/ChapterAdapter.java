@@ -66,7 +66,7 @@ class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHold
         }
 
         void bind(BibleChapter chapter){
-            ((TextView) itemView.findViewById(R.id.info_text)).setText(chapter.getBookId());
+            ((TextView) itemView.findViewById(R.id.info_text)).setText(chapter.getNumber());
 
             itemView.setOnClickListener(v -> Toast.makeText(v.getContext(),"Clicked on " + chapter.getId(),Toast.LENGTH_LONG).show());
         }
