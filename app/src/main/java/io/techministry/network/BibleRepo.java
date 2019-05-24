@@ -1,5 +1,6 @@
 package io.techministry.network;
 
+import android.os.Looper;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -15,8 +16,8 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
 import okio.BufferedSource;
 
@@ -30,6 +31,11 @@ public class BibleRepo {
         this.gson = gson;
         this.bibleApi = bibleApi;
         this.cacheDir = cacheDir;
+    }
+    public Observable<BooksResponse> zfetchBibleBooks(String bibleId) {
+        boolean isItMainThread = Looper.myLooper() == Looper.getMainLooper();
+        Log.d("TEST", "is it main thread "+ isItMainThread);
+        return bibleApi.getBibleBooks(bibleId);
     }
 
     public Single<BooksResponse> getBibleBook(String bibleId) {

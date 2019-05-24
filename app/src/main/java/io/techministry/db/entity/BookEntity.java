@@ -1,5 +1,6 @@
 package io.techministry.db.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -15,9 +16,11 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "books")
 public class BookEntity {
 
-    @PrimaryKey(autoGenerate = true)
+//    @PrimaryKey(autoGenerate = true)
 //    @ColumnInfo
 //    private int keyId;
+    @NonNull
+    @PrimaryKey
     @ColumnInfo(name = "id")
     private String id;
     @ColumnInfo(name = "abbreviation")

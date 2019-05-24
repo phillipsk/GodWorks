@@ -1,5 +1,6 @@
 package io.techministry.db.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -15,8 +16,9 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "chapters")
 public class ChapterEntity {
 
-    @PrimaryKey(autoGenerate = true)
-
+//    @PrimaryKey(autoGenerate = true)
+@NonNull
+    @PrimaryKey
     @ColumnInfo(name = "id")
     private String id;
     @ColumnInfo(name = "bookId")

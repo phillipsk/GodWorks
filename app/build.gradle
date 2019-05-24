@@ -10,7 +10,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "API_KEY", '"' + "34833be0e1e5aa386acc219408a80c39" + '"'
+        buildConfigField "String", "API_URL_BIBLE", API_URL_BIBLE
+        buildConfigField "String", "API_KEY_BIBLE", API_KEY_BIBLE
     }
     buildTypes {
         release {
@@ -37,6 +38,16 @@ dependencies {
     implementation 'com.facebook.stetho:stetho-okhttp3:1.4.1'
 
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    //Retrofit
+    implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.rxJavaLibraryVersion"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.rxJavaLibraryVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.rxJavaLibraryVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okHttpVersion"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakCanaryVersion"
+
+    //RxJava
+    implementation "io.reactivex:rxjava:$rootProject.ext.rxJavaVersion"
+    implementation "io.reactivex:rxandroid:$rootProject.ext.rxAndroidVersion"
 
     implementation 'com.nytimes.android:store3:3.1.0'
     implementation "com.nytimes.android:cache3:3.1.0"

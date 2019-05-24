@@ -3,11 +3,6 @@ package io.techministry.ui.bible.chapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +10,12 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import io.techministry.GodWorksApplication;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import io.techministry.GWApp;
 import io.techministry.R;
 import io.techministry.network.BibleApiManager;
 import io.techministry.network.BibleBook;
@@ -59,7 +59,7 @@ public class ChapterFragment extends Fragment implements ChapterScreen {
     public void onAttach(Context context) {
         super.onAttach(context);
         BibleApiManager bibleApiManager =
-                ((GodWorksApplication) context.getApplicationContext())
+                ((GWApp) context.getApplicationContext())
                         .getBibleApiManager();
         chapterPresenter = new ChapterPresenter(bibleApiManager.getGson(),
                 bibleApiManager.getBibleApi(), context.getCacheDir());
