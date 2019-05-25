@@ -41,9 +41,11 @@ public class BibleFragment extends Fragment implements BibleScreen {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ObservableHelper.getInstance();
+//        ObservableHelper.getInstance();
 //        mObservableHelper.
-        biblePresenter.getBibBook("null");
+        biblePresenter = new BiblePresenter(getActivity().getApplication(),
+                ObservableHelper.getInstance());
+                biblePresenter.getBibBook("null");
 
     }
 
@@ -86,9 +88,10 @@ public class BibleFragment extends Fragment implements BibleScreen {
         biblePresenter = new BiblePresenter(bibleApiManager.getGson(), bibleApiManager.getBibleApi(), getActivity().getCacheDir());
 
         biblePresenter.bind(this);
-        // TODO: get the data from the cache if available instead of making a new HTTP request everytime
+        // TODO: get the books from the cache if available instead of making a new HTTP request everytime
 //        biblePresenter.fetchBibleBooks(bibleId);
-        biblePresenter.zfetchBibleBooks(bibleId);
+// TODO: Original API Call, commented out
+// biblePresenter.zfetchBibleBooks(bibleId);
         Toast.makeText(getActivity(), "ON VIEW CREATED", Toast.LENGTH_LONG).show();
     }
 

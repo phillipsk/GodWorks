@@ -1,5 +1,6 @@
 package io.techministry.ui.bible;
 
+import android.app.Application;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -39,9 +40,15 @@ public class BiblePresenter {
     public BiblePresenter(Gson gson, BibleApi bibleApi, File cacheDir) {
         this.bibleRepo = new BibleRepo(gson, bibleApi, cacheDir);
         this.compositeDisposable = new CompositeDisposable();
-        ObservableHelper.getInstance();
+//        Refactor below
+//        this.observableHelper = observableHelper;
+//        mBibleBooksRepository = new BibleBooksRepository(application);
+    }
 
-//        this.observableHelper = new ObservableHelper();
+    public BiblePresenter(Application application, ObservableHelper observableHelper) {
+        this.observableHelper = observableHelper;
+        mBibleBooksRepository = new BibleBooksRepository(application);
+        bibleRepo = null;
     }
 
     public void bind(BibleScreen bibleScreen) {
@@ -50,31 +57,33 @@ public class BiblePresenter {
 
     public void getBibBook(String bibleVersion){
         String bibID = "de4e12af7f28f599-02";
-        ObservableHelper.getInstance();
-
-        Observable<BibleBook> getBibBooks = observableHelper.getBibBooks(bibID);
+        Log.v("Verbose Tag","okhttp -> Begin API request");
+        Log.d("okhttp Tag","okhttp -> Begin API request");
+        Observable<BooksResponse> getBibBooks = observableHelper.getBibBooks(bibID);
         getBibBooks.subscribeOn(rx.schedulers.Schedulers.io())
                 .retry(1)
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends BibleBook>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends BooksResponse>>() {
                     @Override
-                    public Observable<? extends BibleBook> call(Throwable throwable) {
+                    public Observable<? extends BooksResponse> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
-                .subscribe(new Subscriber<BibleBook>() {
+                .subscribe(new Subscriber<BooksResponse>() {
                     @Override
                     public void onCompleted() {
+                        Log.v("okhttp Tag","onCompleted");
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.v("okhttp Tag","onError");
 
                     }
 
                     @Override
-                    public void onNext(BibleBook bibleBook) {
+                    public void onNext(BooksResponse bibleBook) {
 //                      if (articlesWrapper.getArticles().size() == 0) {
                         if (bibleBook.getBooks().size() == 0){
                             Log.e("getBooks","get books is 0");
@@ -121,7 +130,7 @@ public class BiblePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(booksResponse ->
                                 bibleScreen.onNewBibleBooks(
-                                        booksResponse.data),
+                                        booksResponse.books),
                         throwable -> Log.e("TEST", "Error in fetch Bible books", throwable)));
     }
 
@@ -132,7 +141,7 @@ public class BiblePresenter {
                 .subscribe(new Consumer<BooksResponse>() {
                                @Override
                                public void accept(BooksResponse booksResponse) throws Exception {
-                                   bibleScreen.onNewBibleBooks(booksResponse.data);
+                                   bibleScreen.onNewBibleBooks(booksResponse.books);
                                }
                            },
                         throwable -> Log.e("TEST", "Error in fetch Bible books", throwable)));

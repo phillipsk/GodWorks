@@ -25,7 +25,7 @@ public class ObservableHelper {
         return GWApp.provideRetrofit(BuildConfig.API_URL_BIBLE,BuildConfig.API_KEY_BIBLE);
     }
 
-    public Observable<BibleBook> getBibBooks(String bibleID) {
+    public Observable<BooksResponse> getBibBooks(String bibleID) {
         return iBibleApi.fetchBibBooks(bibleID);
                 //.fetchTopHeadlines(countryCode, sources, category, query, page, BuildConfig.API_KEY);
     }

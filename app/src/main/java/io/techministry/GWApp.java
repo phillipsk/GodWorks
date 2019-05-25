@@ -52,6 +52,7 @@ public class GWApp extends Application {
         httpClient.connectTimeout(10, TimeUnit.SECONDS);
         httpClient.readTimeout(10, TimeUnit.SECONDS);
         httpClient.addInterceptor(new StethoInterceptor());
+//        httpClient.a
         httpClient.interceptors().add(logging);
 
         return new Retrofit.Builder()

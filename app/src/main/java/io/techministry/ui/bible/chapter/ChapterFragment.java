@@ -67,7 +67,7 @@ public class ChapterFragment extends Fragment implements ChapterScreen {
 
         /*
 
-        Bible fragment: should load the data the first time, and then load the data from the cache
+        Bible fragment: should load the books the first time, and then load the books from the cache
         Chapter fragment: will load the chapters the first time from the remote api, and then from cache
 
          */
@@ -91,7 +91,7 @@ public class ChapterFragment extends Fragment implements ChapterScreen {
 
     @Override
     public void onNewBibleChapters(List<BibleChapter> chapters) {
-        Log.i("TESTING", "Incoming data: " + chapters);
+        Log.i("TESTING", "Incoming books: " + chapters);
         chapterAdapter.setItems(chapters);
     }
 

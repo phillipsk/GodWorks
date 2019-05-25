@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ChapterResponse {
-    @SerializedName("data")
+    @SerializedName("books")
     public List<BibleChapter> chapterList;
 
     public ChapterResponse(List<BibleChapter> chList) {
