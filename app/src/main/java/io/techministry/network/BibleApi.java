@@ -1,5 +1,6 @@
 package io.techministry.network;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
@@ -16,6 +17,8 @@ public interface BibleApi {
 
     @GET("/v1/bibles/{bible_id}/books")
     Single<ResponseBody> getBibleBooksForPersister(@Path("bible_id") String bibleId);
+    @GET("/v1/bibles/{bible_id}/books")
+    Observable<BooksResponse> getBibleBooks(@Path("bible_id") String bibleId);
 
     @GET("/v1/bibles/{bible_id}/books/{book_id}/chapters")
     Single<ResponseBody> getBibleChaptersForPersister(@Path("bible_id") String bibleId,

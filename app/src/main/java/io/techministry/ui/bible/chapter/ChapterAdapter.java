@@ -1,7 +1,5 @@
 package io.techministry.ui.bible.chapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import io.techministry.R;
 import io.techministry.network.BibleChapter;
 
@@ -25,7 +25,7 @@ class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHold
     @NonNull
     @Override
     public ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ChapterViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_base_chapters,parent,false));
+        return new ChapterViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_chapters,parent,false));
     }
 
 /* // TODO: Default constructor differs
@@ -46,7 +46,7 @@ class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
-//        holder.bind(bibleChapterList.g);
+        holder.bind(bibleChapterList.get(position));
     }
 
     public void setItems(List<BibleChapter> data){
@@ -56,8 +56,7 @@ class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHold
 
     @Override
     public int getItemCount() {
-//        return bibleChapterList.size();
-        return 0;
+        return bibleChapterList.size();
     }
 
     public class ChapterViewHolder extends RecyclerView.ViewHolder{
@@ -67,7 +66,7 @@ class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHold
         }
 
         void bind(BibleChapter chapter){
-            ((TextView) itemView.findViewById(R.id.country_name)).setText(chapter.getBookId());
+            ((TextView) itemView.findViewById(R.id.info_text)).setText(chapter.getNumber());
 
             itemView.setOnClickListener(v -> Toast.makeText(v.getContext(),"Clicked on " + chapter.getId(),Toast.LENGTH_LONG).show());
         }

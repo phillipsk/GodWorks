@@ -1,6 +1,9 @@
 package io.techministry.network;
 
-public class BibleBook {
+import java.io.Serializable;
+import java.util.List;
+
+public class BibleBook implements Serializable {
 
     /*      "id": "EXO",
       "bibleId": "de4e12af7f28f599-01",
@@ -12,6 +15,19 @@ public class BibleBook {
     String abbreviation;
     String name;
     String nameLong;
+
+    private List<BibleBook> Books;
+
+    public List<BibleBook> getBooks() {
+        return Books;
+    }
+
+    public void setBooks(List<BibleBook> books) {
+        Books = books;
+    }
+
+    public BibleBook() {
+    }
 
     public BibleBook(String id, String abbreviation, String name, String nameLong) {
         this.id = id;
@@ -35,4 +51,5 @@ public class BibleBook {
     public String getNameLong() {
         return nameLong;
     }
+
 }

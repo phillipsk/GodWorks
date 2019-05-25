@@ -18,8 +18,8 @@ class ChapterPresenter {
     private ChapterScreen chapterScreen;
     private CompositeDisposable compositeDisposable;
 
-    ChapterPresenter(Gson gson, BibleApi bibleApi, File cacheDir){
-        this.bibleRepo = new BibleRepo(gson,bibleApi,cacheDir);
+    ChapterPresenter(Gson gson, BibleApi bibleApi, File cacheDir) {
+        this.bibleRepo = new BibleRepo(gson, bibleApi, cacheDir);
         this.compositeDisposable = new CompositeDisposable();
     }
 
@@ -30,24 +30,22 @@ class ChapterPresenter {
         this.compositeDisposable = compositeDisposable;
     }*/
 
-//    TODO: Why is this necessary? How Does Android OS bind?
-    public void bind(ChapterScreen chapterScreen){
+    //    TODO: Why is this necessary? How Does Android OS bind?
+    public void bind(ChapterScreen chapterScreen) {
         this.chapterScreen = chapterScreen;
     }
 
-    void fetchBibleChapters(String bibleId, String bookId){
+    void fetchBibleChapters(String bibleId, String bookId) {
         compositeDisposable.add(
-                bibleRepo.getBibleChapter(bibleId,bookId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(chapterResponse ->
-                        chapterScreen.onNewBibleChapters(
-                                chapterResponse.chapterList),
-                throwable -> Log.e("TEST", "Error in fetch Chapters",throwable)
-        ));
+                bibleRepo.getBibleChapter(bibleId, bookId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(chapterResponse -> chapterScreen.onNewBibleChapters(chapterResponse.chapterList),
+                                throwable -> Log.e("TEST", "Error in fetch Chapters", throwable)
+                        ));
     }
 
-    void unbind(){
+    void unbind() {
         compositeDisposable.clear();
     }
 }

@@ -1,5 +1,8 @@
 package io.techministry.network;
 
+import android.os.Looper;
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.nytimes.android.external.fs3.FileSystemPersister;
 import com.nytimes.android.external.fs3.PathResolver;
@@ -13,6 +16,7 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import okio.BufferedSource;
@@ -27,6 +31,11 @@ public class BibleRepo {
         this.gson = gson;
         this.bibleApi = bibleApi;
         this.cacheDir = cacheDir;
+    }
+    public Observable<BooksResponse> zfetchBibleBooks(String bibleId) {
+        boolean isItMainThread = Looper.myLooper() == Looper.getMainLooper();
+        Log.d("TEST", "is it main thread "+ isItMainThread);
+        return bibleApi.getBibleBooks(bibleId);
     }
 
     public Single<BooksResponse> getBibleBook(String bibleId) {
@@ -64,12 +73,14 @@ public class BibleRepo {
                             @Nonnull
                             @Override
                         public String resolve(@Nonnull String key){
-                            return "chapter-"+ bookId;
+                            return bibleId + "-" + "chapter" + "-" + bookId;
                         }
                     }))
                     .parser(GsonParserFactory.createSourceParser(gson,ChapterResponse.class))
                     .open();
-            return chapterResponseStringStore.fetch(bibleId); // bookid
+            Single<ChapterResponse> single = chapterResponseStringStore.fetch(bibleId);
+
+            return single.doOnSuccess(chapterResponse -> Log.i("TEST", "Single emitting " + chapterResponse));  // bookid
         }catch (IOException e){
             return Single.error(e);
         }

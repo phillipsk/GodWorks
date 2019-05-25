@@ -11,7 +11,7 @@ public class BibleApiInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         return chain.proceed(chain.request().newBuilder()
-                .addHeader("api-key", BuildConfig.API_KEY)
+                .addHeader("api-key", BuildConfig.API_KEY_BIBLE)
                 .build());
     }
 }

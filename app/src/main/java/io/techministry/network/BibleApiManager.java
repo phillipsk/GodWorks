@@ -4,10 +4,12 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import io.techministry.BuildConfig;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.moshi.MoshiConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BibleApiManager {
 
@@ -41,12 +43,14 @@ public class BibleApiManager {
         OkHttpClient apiClient = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
                 .addNetworkInterceptor(new BibleApiInterceptor())
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(apiClient)
-                .baseUrl(URL_RUTH)
-                .addConverterFactory(MoshiConverterFactory.create())
+                .baseUrl(BuildConfig.API_URL_BIBLE)
+                .addConverterFactory(GsonConverterFactory.create(provideGson()))
+//                .addConverterFactory(MoshiConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
@@ -55,6 +59,12 @@ public class BibleApiManager {
 
     public Gson createGson() {
         return new GsonBuilder().create();
+    }
+    public static Gson provideGson() {
+        return new GsonBuilder()
+                .setLenient()
+                .serializeNulls()
+                .create();
     }
 
 }
